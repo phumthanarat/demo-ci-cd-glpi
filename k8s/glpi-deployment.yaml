@@ -20,9 +20,19 @@ spec:
           image: IMAGE_PLACEHOLDER
           ports:
             - containerPort: 80
+
+          volumeMounts:
+            - name: glpi-storage
+              mountPath: /var/www/html
+
           readinessProbe:
             httpGet:
               path: /
               port: 80
-            initialDelaySeconds: 30
-            periodSeconds: 5
+            initialDelaySeconds: 60
+            periodSeconds: 10
+
+      volumes:
+        - name: glpi-storage
+          persistentVolumeClaim:
+            claimName: glpi-pvc
