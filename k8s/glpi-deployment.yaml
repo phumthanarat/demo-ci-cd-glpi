@@ -5,6 +5,8 @@ metadata:
   namespace: glpi
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: glpi
@@ -18,16 +20,9 @@ spec:
           image: IMAGE_PLACEHOLDER
           ports:
             - containerPort: 80
-          volumeMounts:
-            - name: glpi-storage
-              mountPath: /var/www/html/files
           readinessProbe:
             httpGet:
               path: /
               port: 80
-            initialDelaySeconds: 15
+            initialDelaySeconds: 30
             periodSeconds: 5
-      volumes:
-        - name: glpi-storage
-          persistentVolumeClaim:
-            claimName: glpi-pvc
