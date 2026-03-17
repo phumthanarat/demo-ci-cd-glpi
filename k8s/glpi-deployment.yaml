@@ -15,15 +15,22 @@ spec:
       labels:
         app: glpi
     spec:
-      # ✅ FIX permission ของ PVC
       securityContext:
         fsGroup: 33
+
+      # ✅ FIX สำคัญ: แก้ permission ก่อน container run
+      initContainers:
+        - name: fix-permission
+          image: busybox
+          command: ["sh", "-c", "chown -R 33:33 /var/www/html"]
+          volumeMounts:
+            - name: glpi-storage
+              mountPath: /var/www/html
 
       containers:
         - name: glpi
           image: IMAGE_PLACEHOLDER
 
-          # ✅ run เป็น www-data
           securityContext:
             runAsUser: 33
             runAsGroup: 33
@@ -41,7 +48,6 @@ spec:
               port: 80
             initialDelaySeconds: 60
             periodSeconds: 10
-            timeoutSeconds: 5
             failureThreshold: 6
 
       volumes:
