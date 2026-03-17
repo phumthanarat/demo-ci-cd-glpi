@@ -10,6 +10,9 @@ RUN a2enmod rewrite
 
 RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
 
+# 🔥 FIX GLPI PUBLIC
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
+
 WORKDIR /var/www/html
 
 RUN curl -L https://github.com/glpi-project/glpi/releases/download/11.0.6/glpi-11.0.6.tgz \
