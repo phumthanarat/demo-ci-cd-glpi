@@ -15,9 +15,19 @@ spec:
       labels:
         app: glpi
     spec:
+      # ✅ FIX permission ของ PVC
+      securityContext:
+        fsGroup: 33
+
       containers:
         - name: glpi
           image: IMAGE_PLACEHOLDER
+
+          # ✅ run เป็น www-data
+          securityContext:
+            runAsUser: 33
+            runAsGroup: 33
+
           ports:
             - containerPort: 80
 
@@ -31,6 +41,8 @@ spec:
               port: 80
             initialDelaySeconds: 60
             periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
 
       volumes:
         - name: glpi-storage
