@@ -27,7 +27,7 @@ spec:
 
           volumeMounts:
             - name: glpi-storage
-              mountPath: /var/www/html
+              mountPath: /var/www/html/files   # ✅ แก้ตรงนี้
 
           readinessProbe:
             httpGet:
