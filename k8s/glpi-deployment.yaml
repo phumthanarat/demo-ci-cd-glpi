@@ -21,14 +21,13 @@ spec:
       containers:
         - name: glpi
           image: IMAGE_PLACEHOLDER
-
           ports:
             - containerPort: 80
-
           volumeMounts:
             - name: glpi-storage
-              mountPath: /var/www/html/files   # ✅ แก้ตรงนี้
-
+              mountPath: /var/www/html/files
+            - name: glpi-config
+              mountPath: /var/www/html/config
           readinessProbe:
             httpGet:
               path: /
@@ -40,3 +39,6 @@ spec:
         - name: glpi-storage
           persistentVolumeClaim:
             claimName: glpi-pvc
+        - name: glpi-config
+          persistentVolumeClaim:
+            claimName: glpi-config-pvc
