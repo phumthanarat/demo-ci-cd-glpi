@@ -6,7 +6,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: hostpath
   resources:
     requests:
       storage: 5Gi
+  storageClassName: standard  # เปลี่ยนจาก hostpath เป็น standard
