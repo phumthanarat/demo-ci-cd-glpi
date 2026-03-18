@@ -18,22 +18,9 @@ spec:
       securityContext:
         fsGroup: 33
 
-      # ✅ FIX สำคัญ: แก้ permission ก่อน container run
-      initContainers:
-        - name: fix-permission
-          image: busybox
-          command: ["sh", "-c", "chown -R 33:33 /var/www/html"]
-          volumeMounts:
-            - name: glpi-storage
-              mountPath: /var/www/html
-
       containers:
         - name: glpi
           image: IMAGE_PLACEHOLDER
-
-          securityContext:
-            runAsUser: 33
-            runAsGroup: 33
 
           ports:
             - containerPort: 80
@@ -48,7 +35,6 @@ spec:
               port: 80
             initialDelaySeconds: 60
             periodSeconds: 10
-            failureThreshold: 6
 
       volumes:
         - name: glpi-storage
